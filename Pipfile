@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+mkdocs = "*"
+mkdocs-material = "*"
+python-markdown-math = "*"
+jinja2 = "*"
+markdown = "*"
+mkdocs-material-extensions = "*"
+mkdocs-minify-plugin = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+version = "mkdocs --version"
+help = "mkdocs --help"
+serve = "mkdocs serve"
+build = "mkdocs build"
+deploy = "mkdocs gh-deploy"
+pdfgen = "python generate_pdf.py"
