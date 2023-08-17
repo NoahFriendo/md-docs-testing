@@ -5,10 +5,9 @@ import shutil
 
 TEMP_DIR = "temp_md"
 
-# Cleanup function to remove the temp_md directory
-
 
 def cleanup_temp_dir():
+    '''Cleanup function to remove the temp_md directory'''
     if os.path.exists(TEMP_DIR):
         shutil.rmtree(TEMP_DIR)
 
@@ -24,8 +23,12 @@ all_modified_files = []
 # Walk through the docs directory
 for root, dirs, files in os.walk("docs"):
     for file in files:
+        filepath = os.path.join(root, file)
+        # Skip docs/index.md
+        if filepath == "docs/index.md":
+            continue
         if file.endswith(".md"):
-            with open(os.path.join(root, file), 'r', encoding='utf-8') as f:
+            with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
 
                 # Replace relative image paths with absolute paths
