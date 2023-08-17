@@ -1,5 +1,4 @@
 # Pipenv related
-Pipfile.lock
 /.venv/
 
 # MkDocs specific
