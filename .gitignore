@@ -5,7 +5,7 @@
 /site/
 
 # PDF output
-/documentation.pdf
+/*.pdf
 
 # Temporary markdown directory
 /temp_md/

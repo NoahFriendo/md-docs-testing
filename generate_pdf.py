@@ -48,7 +48,7 @@ for root, dirs, files in os.walk("docs"):
 
 # Run pandoc with modified markdown files
 command = ["pandoc"] + all_modified_files + \
-    ["-o", "documentation.pdf", "--toc", "--pdf-engine=xelatex"]
+    ["-o", "site/output.pdf", "--toc", "--pdf-engine=xelatex"]
 subprocess.run(command)
 
 # Cleanup the temp_md directory after the PDF is generated

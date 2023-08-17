@@ -36,5 +36,13 @@ jobs:
           pip install pipenv
           pipenv install --deploy
 
+      - name: Build Site
+        run: |
+          pipenv run build
+
+      - name: Generate PDF
+        run: |
+          pipenv run pdfgen
+
       - name: Deploy to GitHub Pages
         run: pipenv run deploy
