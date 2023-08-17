@@ -16,11 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-
       - name: Get current date (week-based)
         id: get-date
         run: echo "WEEK=$(date +'%Y-%W')" >> $GITHUB_ENV
@@ -33,20 +28,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-apt-${{ hashFiles('**/*.yml', '**/*.yaml') }}
 
-      - name: Cache pipenv dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}-${{ env.WEEK }}
-          restore-keys: |
-            ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-
-      - name: Install Dependencies
+      - name: Install Packages
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc texlive-xetex
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+          cache: "pipenv"
+
+      - name: Install Python Dependencies
+        run: |
           pip install pipenv
-          pipenv install --deploy --ignore-pipfile
+          pipenv install --deploy
 
       - name: Deploy to GitHub Pages
         run: pipenv run deploy
