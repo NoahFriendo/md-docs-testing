@@ -20,14 +20,6 @@ jobs:
         id: get-date
         run: echo "WEEK=$(date +'%Y-%W')" >> $GITHUB_ENV
 
-      - name: Cache apt packages
-        uses: actions/cache@v3
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-${{ hashFiles('**/*.yml', '**/*.yaml') }}-${{ env.WEEK }}
-          restore-keys: |
-            ${{ runner.os }}-apt-${{ hashFiles('**/*.yml', '**/*.yaml') }}
-
       - name: Install Packages
         run: |
           sudo apt-get update
