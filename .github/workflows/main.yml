@@ -33,8 +33,21 @@ jobs:
         run: |
           pipenv run build
 
-      - name: Deploy to GitHub Pages
-        uses: mikeal/publish-to-github-action@master
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: site
+          # Upload entire repository
+          path: "./site"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+      # - name: Deploy to GitHub Pages
+      #   uses: mikeal/publish-to-github-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     directory: site
