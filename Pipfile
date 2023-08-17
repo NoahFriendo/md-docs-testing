@@ -11,6 +11,7 @@ jinja2 = "*"
 markdown = "*"
 mkdocs-material-extensions = "*"
 mkdocs-minify-plugin = "*"
+ghp-import = "*"
 
 [dev-packages]
 
@@ -22,5 +23,5 @@ version = "mkdocs --version"
 help = "mkdocs --help"
 serve = "mkdocs serve"
 build = "mkdocs build"
-deploy = "mkdocs gh-deploy --force"
+deploy = "ghp-import -n -p -f site"
 pdfgen = "python generate_pdf.py"
