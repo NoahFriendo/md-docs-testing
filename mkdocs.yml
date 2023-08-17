@@ -1,4 +1,5 @@
 site_name: Documentation Testing
+site_url: "https://noahfriendo.github.io/md-docs-testing/"
 
 theme:
   name: material
