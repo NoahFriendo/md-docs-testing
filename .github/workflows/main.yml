@@ -1,13 +1,17 @@
 name: ci
+
 on:
   push:
     branches:
       - main
+
 permissions:
   contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,23 +21,32 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Get current date (week-based)
+        id: get-date
+        run: echo "::set-output name=week::$(date +'%Y-%W')"
+
+      - name: Cache apt packages
+        uses: actions/cache@v3
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-${{ hashFiles('**/*.yml', '**/*.yaml') }}-${{ steps.get-date.outputs.week }}
+          restore-keys: |
+            ${{ runner.os }}-apt-${{ hashFiles('**/*.yml', '**/*.yaml') }}
+
+      - name: Cache pipenv dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}-${{ steps.get-date.outputs.week }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+
       - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc texlive-xetex
           pip install pipenv
           pipenv install --deploy --ignore-pipfile
-
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
-
-      # - run: pip install mkdocs-material
 
       - name: Deploy to GitHub Pages
         run: pipenv run deploy
